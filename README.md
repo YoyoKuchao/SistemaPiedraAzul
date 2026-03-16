@@ -15,3 +15,18 @@ Aquí se gestionaron:
 - Sprint planning
 - Asignación de tareas del equipo
 - Seguimiento del Sprint
+
+
+## Diseño de Interfaces (Figma)
+
+El prototipo de interfaces del sistema fue diseñado en Figma.
+
+🔗 Prototipo del sistema:
+https://www.figma.com/design/YoEGlUqOlbJTpIGclQ1s2t/PIEDRAAZUL?node-id=0-1&t=uQkYjJ3FUWaHfqpx-1
+
+Incluye:
+
+- Pantalla de login
+- Registro de usuarios
+- Navegación inicial del sistema
+- Prototipo interactivo
