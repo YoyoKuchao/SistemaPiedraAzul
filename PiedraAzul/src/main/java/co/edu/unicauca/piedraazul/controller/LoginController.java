@@ -1,9 +1,11 @@
 package co.edu.unicauca.piedraazul.controller;
 
 import co.edu.unicauca.piedraazul.model.User;
+import co.edu.unicauca.piedraazul.observer.Observer;
 import co.edu.unicauca.piedraazul.service.UserService;
 import co.edu.unicauca.piedraazul.util.SceneManager;
 import co.edu.unicauca.piedraazul.util.UserSession;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
@@ -11,7 +13,7 @@ import javafx.scene.control.TextField;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoginController {
+public class LoginController implements Observer {
 
     @FXML
     private TextField usernameField;
@@ -27,6 +29,11 @@ public class LoginController {
         this.userService = userService;
         this.sceneManager = sceneManager;
         this.userSession = userSession;
+    }
+
+    @FXML
+    private void initialize() {
+        userService.attach(this);
     }
 
     @FXML
@@ -57,7 +64,15 @@ public class LoginController {
 
     @FXML
     private void goToRegister() {
+        userService.detach(this);
         sceneManager.switchScene("register.xml");
+    }
+
+    @Override
+    public void update(String message) {
+        Platform.runLater(() -> {
+            System.out.println("LOGIN OBSERVER: " + message);
+        });
     }
 
     private void showAlert(Alert.AlertType type, String title, String message) {

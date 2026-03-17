@@ -3,8 +3,10 @@ package co.edu.unicauca.piedraazul.controller;
 import co.edu.unicauca.piedraazul.model.User;
 import co.edu.unicauca.piedraazul.model.UserRole;
 import co.edu.unicauca.piedraazul.model.UserStatus;
+import co.edu.unicauca.piedraazul.observer.Observer;
 import co.edu.unicauca.piedraazul.service.UserService;
 import co.edu.unicauca.piedraazul.util.SceneManager;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,7 +17,7 @@ import javafx.scene.control.TextField;
 import org.springframework.stereotype.Component;
 
 @Component
-public class RegisterUserController {
+public class RegisterUserController implements Observer {
 
     @FXML
     private TextField firstNameField;
@@ -58,6 +60,8 @@ public class RegisterUserController {
 
     @FXML
     private void initialize() {
+        userService.attach(this);
+
         documentTypeCombo.getItems().addAll(
                 "Cédula de ciudadanía",
                 "Tarjeta de identidad",
@@ -104,7 +108,7 @@ public class RegisterUserController {
         user.setRole(selectedRole);
         user.setStatus(UserStatus.ACTIVE);
 
-        boolean success = userService.registerUser(user);
+        boolean success = userService.registerUser(user, this);
 
         if (success) {
             showAlert(Alert.AlertType.INFORMATION, "Registro exitoso", "Usuario registrado correctamente.");
@@ -112,6 +116,13 @@ public class RegisterUserController {
         } else {
             showAlert(Alert.AlertType.ERROR, "Registro fallido", "El usuario ya existe.");
         }
+    }
+
+    @Override
+    public void update(String message) {
+        Platform.runLater(() -> {
+            System.out.println("REGISTER OBSERVER: " + message);
+        });
     }
 
     @FXML
@@ -135,6 +146,7 @@ public class RegisterUserController {
 
     @FXML
     private void goBackToLogin() {
+        userService.detach(this);
         sceneManager.switchScene("login.xml");
     }
 
