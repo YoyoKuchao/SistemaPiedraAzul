@@ -24,18 +24,17 @@ public class PiedraAzul extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        SceneManager sceneManager = springContext.getBean(SceneManager.class);
-        sceneManager.setPrimaryStage(primaryStage);
+    SceneManager sceneManager = springContext.getBean(SceneManager.class);
+    sceneManager.setPrimaryStage(primaryStage);
 
-       primaryStage.setTitle("PiedraAzul");
-       primaryStage.setWidth(1280);
-       primaryStage.setHeight(760);
-       primaryStage.setMinWidth(1100);
-       primaryStage.setMinHeight(700);
-       primaryStage.centerOnScreen();
-        
-        sceneManager.switchScene("login.xml");
-    }
+    primaryStage.setTitle("PiedraAzul");
+    primaryStage.setMinWidth(1100);
+    primaryStage.setMinHeight(700);
+    primaryStage.setMaximized(true);
+    primaryStage.setResizable(true);
+
+    sceneManager.switchScene("login.xml");
+}
 
     @Override
     public void stop() {

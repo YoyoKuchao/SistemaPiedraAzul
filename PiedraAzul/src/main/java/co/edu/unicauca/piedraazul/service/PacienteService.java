@@ -17,9 +17,13 @@ public class PacienteService {
         this.pacienteRepository = pacienteRepository;
     }
 
-    public Optional<Paciente> buscarPorDocumento(String numeroDocumento) {
-        return pacienteRepository.findByNumeroDocumento(numeroDocumento);
+    public Paciente buscarPorNumeroDocumento(String numeroDocumento) {
+    if (numeroDocumento == null || numeroDocumento.trim().isEmpty()) {
+        return null;
     }
+
+    return pacienteRepository.findByNumeroDocumento(numeroDocumento.trim()).orElse(null);
+}
 
     public Paciente obtenerOCrearPaciente(
             String numeroDocumento,

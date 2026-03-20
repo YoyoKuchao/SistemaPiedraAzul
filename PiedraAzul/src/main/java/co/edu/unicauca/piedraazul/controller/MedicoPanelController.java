@@ -146,4 +146,12 @@ public class MedicoPanelController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+    private void handleLogout() {
+    try {
+        sceneManager.switchScene("login.xml");
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
 }

@@ -7,36 +7,65 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.net.URL;
+
 @Component
 public class SceneManager {
 
+    private final ApplicationContext applicationContext;
     private Stage primaryStage;
-    private final ApplicationContext context;
 
-    public SceneManager(ApplicationContext context) {
-        this.context = context;
+    public SceneManager(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
-    public void setPrimaryStage(Stage stage) {
-        this.primaryStage = stage;
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public void switchScene(String fxmlFile) {
+        if (primaryStage == null) {
+            throw new IllegalStateException("PrimaryStage no ha sido inicializado en SceneManager.");
+        }
+
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFile));
-            loader.setControllerFactory(context::getBean);
+            URL fxmlLocation = getClass().getResource("/fxml/" + fxmlFile);
+
+            if (fxmlLocation == null) {
+                throw new IllegalArgumentException("No se encontró el archivo FXML: /fxml/" + fxmlFile);
+            }
+
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            loader.setControllerFactory(applicationContext::getBean);
 
             Parent root = loader.load();
-            Scene scene = new Scene(root);
 
-            String css = getClass().getResource("/styles/app.css").toExternalForm();
-            scene.getStylesheets().add(css);
+            Scene newScene;
 
-            primaryStage.setScene(scene);
-            primaryStage.centerOnScreen();
+            if (primaryStage.getScene() == null) {
+                newScene = new Scene(root);
+            } else {
+                double currentWidth = primaryStage.getWidth();
+                double currentHeight = primaryStage.getHeight();
+
+                if (currentWidth <= 0 || currentHeight <= 0) {
+                    newScene = new Scene(root);
+                } else {
+                    newScene = new Scene(root, currentWidth, currentHeight);
+                }
+            }
+
+            URL cssLocation = getClass().getResource("/styles/app.css");
+            if (cssLocation != null) {
+                newScene.getStylesheets().add(cssLocation.toExternalForm());
+            }
+
+            primaryStage.setScene(newScene);
             primaryStage.show();
-        } catch (Exception e) {
-            e.printStackTrace();
+
+        } catch (IOException e) {
+            throw new RuntimeException("Error al cargar la escena: " + fxmlFile, e);
         }
     }
 }
