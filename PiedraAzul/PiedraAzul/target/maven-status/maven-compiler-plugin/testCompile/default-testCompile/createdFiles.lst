@@ -1,0 +1,9 @@
+co\edu\unicauca\piedraazul\service\impl\MedicoServiceImplTest.class
+co\edu\unicauca\piedraazul\model\MedicoTest.class
+co\edu\unicauca\piedraazul\model\PacienteTest.class
+co\edu\unicauca\piedraazul\service\impl\CitaServiceImplTest.class
+co\edu\unicauca\piedraazul\service\impl\PacienteServiceImplTest.class
+co\edu\unicauca\piedraazul\model\UserTest.class
+co\edu\unicauca\piedraazul\service\impl\AgendadorServiceImplTest.class
+co\edu\unicauca\piedraazul\observer\SubjectTest.class
+co\edu\unicauca\piedraazul\service\impl\UserServiceImplTest.class
