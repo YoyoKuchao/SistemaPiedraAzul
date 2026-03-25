@@ -1,0 +1,29 @@
+@startuml C4_Context_SistemaPiedraAzul
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Context.puml
+
+title Sistema Piedra Azul - Diagrama de Contexto
+
+Person(admin, "Administrador", "Gestiona usuarios, médicos/terapistas y configuración del sistema.")
+Person(agendador, "Agendador", "Registra pacientes, agenda y re-agenda citas manualmente.")
+Person(medico, "Médico / Terapista", "Consulta agenda, atiende pacientes y registra historia clínica.")
+Person(paciente, "Paciente", "Solicita citas y recibe información de su atención.")
+
+System(sistema, "Sistema Piedra Azul", "Sistema de gestión de citas médicas, historia clínica básica, auditoría y reportes.")
+
+System_Ext(whatsapp, "WhatsApp", "Canal externo de mensajería", "Usado por pacientes para solicitar citas y recibir confirmaciones o recordatorios.")
+System_Ext(telefono, "Llamadas telefónicas", "Canal externo de comunicación", "Canal alterno para solicitud de citas.")
+System_Ext(exportador, "Hojas de cálculo / CSV", "Herramienta externa", "Permite abrir, editar e imprimir citas exportadas.")
+
+Rel(paciente, whatsapp, "Envía mensajes para solicitar cita")
+Rel(paciente, telefono, "Realiza llamadas para solicitar cita")
+Rel(agendador, sistema, "Gestiona citas y pacientes")
+Rel(medico, sistema, "Consulta agenda y registra atención")
+Rel(admin, sistema, "Administra usuarios y configuración")
+
+Rel(sistema, db, "Lee y escribe información", "JPA / SQL")
+Rel(sistema, whatsapp, "Envía confirmaciones, notificaciones o simulaciones de mensaje", "API simulada / integración futura")
+Rel(sistema, exportador, "Exporta citas", "CSV")
+Rel(agendador, whatsapp, "Recibe solicitudes de pacientes")
+Rel(medico, whatsapp, "Puede recibir solicitudes en el modelo actual")
+
+@enduml
