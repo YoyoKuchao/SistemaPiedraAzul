@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="700.0" prefWidth="1100.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="co.edu.unicauca.piedraazul.controller.PacientePanelController"
+            styleClass="dashboard-root">
+
+    <left>
+        <VBox prefWidth="250.0" spacing="16.0" styleClass="sidebar">
+            <children>
+                <Label text="Piedrazul" styleClass="sidebar-title"/>
+                <Label text="Panel Paciente" styleClass="sidebar-subtitle"/>
+                <Button text="Cerrar sesión" onAction="#logout" styleClass="secondary-button" maxWidth="Infinity"/>
+            </children>
+            <padding>
+                <Insets top="24.0" right="18.0" bottom="24.0" left="18.0"/>
+            </padding>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="16.0" styleClass="content-area">
+            <children>
+                <Label text="Bienvenido, Paciente" styleClass="top-title"/>
+                <Label text="Aquí podrá consultar información de sus citas y servicios disponibles." styleClass="top-subtitle"/>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
